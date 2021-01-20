@@ -10,6 +10,10 @@
           <h1>What I sell: {{product}}</h1>
           <p>{{description}}</p>
           <a :href="search+product">Find more things like this!</a>
+          <p v-if ="inventory>10">In Stock</p>
+          <p v-else-if="inventory<=10&&inventory>0">Almost sold out!</p>
+          <p v-else>Out of Stock</p>
+          <p v-show="onSale">On Sale! :D</p>
         </div>
       </div>
     </div>
@@ -25,8 +29,11 @@ export default {
       product: "Socks",
       description: "A pair of warm, fuzzy socks.",
       image: "./assets/socks-green.png",
-      search: "https://www.google.com/search?q="
-    };
+      search: "https://www.google.com/search?q=",
+      inStock: true,
+      inventory: 0,
+      onSale: true
+      };
   }
 };
 </script>
