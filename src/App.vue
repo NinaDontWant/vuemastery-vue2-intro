@@ -10,10 +10,14 @@
           <h1>What I sell: {{product}}</h1>
           <p>{{description}}</p>
           <a :href="search+product">Find more things like this!</a>
-          <p v-if ="inventory>10">In Stock</p>
+          <p v-if="inventory>10">In Stock</p>
           <p v-else-if="inventory<=10&&inventory>0">Almost sold out!</p>
           <p v-else>Out of Stock</p>
           <p v-show="onSale">On Sale! :D</p>
+          <ul>
+            Sizes:
+            <li v-for="size in sizes" :key="size.id">{{size.numbers}}</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -32,8 +36,12 @@ export default {
       search: "https://www.google.com/search?q=",
       inStock: true,
       inventory: 0,
-      onSale: true
-      };
+      onSale: true,
+      sizes: [
+        { id: 0, numbers: "32-35" },
+        { id: 1, numbers: "36-39" }
+      ]
+    };
   }
 };
 </script>
