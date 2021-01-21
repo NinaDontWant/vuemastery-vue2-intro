@@ -7,17 +7,25 @@
           <img :src="image" :alt="product" />
         </div>
         <div class="product-info">
-          <h1>What I sell: {{product}}</h1>
-          <p>{{description}}</p>
-          <a :href="search+product">Find more things like this!</a>
-          <p v-if="inventory>10">In Stock</p>
-          <p v-else-if="inventory<=10&&inventory>0">Almost sold out!</p>
+          <h1>What I sell: {{ product }}</h1>
+          <p>{{ description }}</p>
+          <a :href="search + product">Find more things like this!</a>
+          <p v-if="inventory > 10">In Stock</p>
+          <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
           <p v-else>Out of Stock</p>
           <p v-show="onSale">On Sale! :D</p>
           <ul>
-            Sizes:
-            <li v-for="size in sizes" :key="size.id">{{size.numbers}}</li>
+            <li v-for="detail in details" :key="details.indexOf(detail)">{{detail}}</li>
           </ul>
+          <div v-for="variant in variants" :key="variant.id">
+            <p @mouseover="updateProduct(variant.image)">{{variant.color}}</p>
+          </div>
+          <div>
+            <button v-on:click="addToCart()">Add to Cart</button>
+            <br />
+            <button v-on:click="takeFromCart()">Take away from Cart</button>
+          </div>
+          <div class="cart">Cart({{cart}})</div>
         </div>
       </div>
     </div>
@@ -37,11 +45,29 @@ export default {
       inStock: true,
       inventory: 0,
       onSale: true,
+      cart: 0,
+      details: ["80% cotton", "20% polyester", "Gender Neutral"],
+      variants: [
+        { id: 0, color: "green", image: "./assets/socks-green.png" },
+        { id: 1, color: "blue", image: "./assets/socks-blue.jpg" }
+      ],
+
       sizes: [
         { id: 0, numbers: "32-35" },
         { id: 1, numbers: "36-39" }
       ]
     };
+  },
+  methods: {
+    updateProduct(variantImage) {
+      this.image = variantImage;
+    },
+    addToCart() {
+      this.cart++;
+    },
+    takeFromCart() {
+      if (this.cart > 0) this.cart--;
+    }
   }
 };
 </script>
