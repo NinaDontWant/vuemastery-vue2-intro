@@ -14,10 +14,23 @@
           <p v-else-if="inventory<=10&&inventory>0">Almost sold out!</p>
           <p v-else>Out of Stock</p>
           <p v-show="onSale">On Sale! :D</p>
+          <!-- 
+          <ul>
+            <li v-for="detail in details">{{detail}}</li>
+          </ul>
+          -->
           <ul>
             Sizes:
             <li v-for="size in sizes" :key="size.id">{{size.numbers}}</li>
           </ul>
+          <div v-for="variant in variants" :key="variant.variantId">
+            <p @mouseover="updateProduct(variant.variantImage)">{{variant.variantColor}}</p>
+          </div>
+        </div>
+        <div class="cart">
+          <p>Cart({{cart}})</p>
+          <button @click="addToCart">Add to Cart</button>
+          <button @click="removeFromCart">Remove from Cart</button>
         </div>
       </div>
     </div>
@@ -35,14 +48,39 @@ export default {
       image: "./assets/socks-green.png",
       search: "https://www.google.com/search?q=",
       inStock: true,
-      inventory: 0,
+      inventory: 6,
       onSale: true,
+      details: ['80% cotton', '20% polyester', 'Gender-neutral'],
+    variants: [
+      {
+        variantId: 2234,
+        variantColor: 'green',
+        variantImage: './assets/socks-green.png'
+      },
+      {
+        variantId: 2235,
+        variantColor: 'blue',
+        variantImage: './assets/vmSocks-blue-onWhite.jpg'
+      }
+    ],
       sizes: [
         { id: 0, numbers: "32-35" },
         { id: 1, numbers: "36-39" }
-      ]
-    };
-  }
+      ],
+      cart: 0
+    }
+  },
+  methods: {
+    addToCart: function() {
+      this.cart += 1;
+      },
+    removeFromCart: function() {
+      this.cart -= 1;
+      },
+    updateProduct(variantImage){
+      this.image=variantImage
+    }    
+    }
 };
 </script>
 
