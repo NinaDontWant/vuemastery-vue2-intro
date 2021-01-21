@@ -14,64 +14,68 @@
           <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
           <p v-else>Out of Stock</p>
           <p v-show="onSale">On Sale! :D</p>
+
           <ul>
-            <li v-for="detail in details" :key="details.indexOf(detail)">{{detail}}</li>
+            <li v-for="detail in details" :key="details.indexOf(detail)">
+              {{ detail }}
+            </li>
           </ul>
           <div v-for="variant in variants" :key="variant.id">
-            <p @mouseover="updateProduct(variant.image)">{{variant.color}}</p>
+            <p @ mouseover="updateProduct(variant.image)">
+              {{ variant.color }}
+            </p>
           </div>
           <div>
             <button v-on:click="addToCart()">Add to Cart</button>
             <br />
             <button v-on:click="takeFromCart()">Take away from Cart</button>
           </div>
-          <div class="cart">Cart({{cart}})</div>
+
+          <div class="cart">Cart({{ cart }})</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script>
 export default {
-  name: "app",
-  data: function() {
+  name: 'app',
+  data: function () {
     return {
-      product: "Socks",
-      description: "A pair of warm, fuzzy socks.",
-      image: "./assets/socks-green.png",
-      search: "https://www.google.com/search?q=",
+      product: 'Socks',
+      description: 'A pair of warm, fuzzy socks.',
+      image: './assets/socks-green.png',
+      search: 'https://www.google.com/search?q=',
       inStock: true,
       inventory: 0,
       onSale: true,
       cart: 0,
-      details: ["80% cotton", "20% polyester", "Gender Neutral"],
+      details: ['80% cotton', '20% polyester', 'Gender Neutral'],
       variants: [
-        { id: 0, color: "green", image: "./assets/socks-green.png" },
-        { id: 1, color: "blue", image: "./assets/socks-blue.jpg" }
+        { id: 0, color: 'green', image: './assets/socks-green.png' },
+        { id: 1, color: 'blue', image: './assets/socks-blue.jpg' },
       ],
 
       sizes: [
-        { id: 0, numbers: "32-35" },
-        { id: 1, numbers: "36-39" }
-      ]
-    };
+        { id: 0, numbers: '32-35' },
+        { id: 1, numbers: '36-39' },
+      ],
+    }
   },
   methods: {
     updateProduct(variantImage) {
-      this.image = variantImage;
+      this.image = variantImage
     },
     addToCart() {
-      this.cart++;
+      this.cart++
     },
     takeFromCart() {
-      if (this.cart > 0) this.cart--;
-    }
-  }
-};
+      if (this.cart > 0) this.cart--
+    },
+  },
+}
 </script>
-
 
 <style>
 #app {
