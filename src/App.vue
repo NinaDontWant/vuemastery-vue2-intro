@@ -6,18 +6,51 @@
         <div class="product-image">
           <img :src="image" :alt="product" />
         </div>
+
         <div class="product-info">
           <h1>What I sell: {{product}}</h1>
           <p>{{description}}</p>
           <a :href="search+product">Find more things like this!</a>
           <p v-if="inventory>10">In Stock</p>
           <p v-else-if="inventory<=10&&inventory>0">Almost sold out!</p>
-          <p v-else>Out of Stock</p>
+          <p 
+            v-else 
+            :class="{outOfStock: !inventory}"
+            >Out of Stock
+          </p>
           <p v-show="onSale">On Sale! :D</p>
+
+          <ul>
+            <li v-for="detail in details" :key="details.indexOf(detail)">{{detail}}</li>
+          </ul>
+
           <ul>
             Sizes:
             <li v-for="size in sizes" :key="size.id">{{size.numbers}}</li>
           </ul>
+          <div 
+            class="color-box"
+            v-for="variant in variants" 
+            :key="variant.variantId"
+            :style="{backgroundColor: variant.variantColor}"
+            @mouseover="updateProduct(variant.variantImage)"
+            >
+          </div>
+        </div>
+        <div class="cart">
+          <p>Cart({{cart}})</p>
+          <button 
+            @click="addToCart"
+            :disabled="!inventory"
+            :class="{disabledButton: !inventory}"
+            >Add to Cart
+          </button>
+          <button 
+            @click="removeFromCart"
+            :disabled="!cart"
+            :class="{disabledButton: !cart}"
+            >Remove from Cart
+            </button>
         </div>
       </div>
     </div>
@@ -37,11 +70,36 @@ export default {
       inStock: true,
       inventory: 0,
       onSale: true,
+      details: ["80% cotton", "20% polyester", "Gender-neutral"],
+      variants: [
+        {
+          variantId: 2234,
+          variantColor: "green",
+          variantImage: "./assets/socks-green.png"
+        },
+        {
+          variantId: 2235,
+          variantColor: "blue",
+          variantImage: "./assets/vmSocks-blue-onWhite.jpg"
+        }
+      ],
       sizes: [
         { id: 0, numbers: "32-35" },
         { id: 1, numbers: "36-39" }
-      ]
+      ],
+      cart: 0
     };
+  },
+  methods: {
+    addToCart: function() {
+      this.cart += 1;
+    },
+    removeFromCart: function() {
+      this.cart -= 1;
+    },
+    updateProduct(variantImage) {
+      this.image = variantImage;
+    }
   }
 };
 </script>
@@ -131,5 +189,9 @@ input {
 textarea {
   width: 100%;
   height: 60px;
+}
+
+.outOfStock {
+  text-decoration: line-through;
 }
 </style>
