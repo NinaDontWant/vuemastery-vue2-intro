@@ -13,7 +13,11 @@
           <a :href="search+product">Find more things like this!</a>
           <p v-if="inventory>10">In Stock</p>
           <p v-else-if="inventory<=10&&inventory>0">Almost sold out!</p>
-          <p v-else >Out of Stock</p>
+          <p 
+            v-else 
+            :class="{outOfStock: !inventory}"
+            >Out of Stock
+          </p>
           <p v-show="onSale">On Sale! :D</p>
 
           <ul>
@@ -64,7 +68,7 @@ export default {
       image: "./assets/socks-green.png",
       search: "https://www.google.com/search?q=",
       inStock: true,
-      inventory: 6,
+      inventory: 0,
       onSale: true,
       details: ["80% cotton", "20% polyester", "Gender-neutral"],
       variants: [
@@ -185,5 +189,9 @@ input {
 textarea {
   width: 100%;
   height: 60px;
+}
+
+.outOfStock {
+  text-decoration: line-through;
 }
 </style>
