@@ -6,13 +6,14 @@
         <div class="product-image">
           <img :src="image" :alt="product" />
         </div>
+
         <div class="product-info">
           <h1>What I sell: {{product}}</h1>
           <p>{{description}}</p>
           <a :href="search+product">Find more things like this!</a>
           <p v-if="inventory>10">In Stock</p>
           <p v-else-if="inventory<=10&&inventory>0">Almost sold out!</p>
-          <p v-else>Out of Stock</p>
+          <p v-else >Out of Stock</p>
           <p v-show="onSale">On Sale! :D</p>
 
           <ul>
@@ -23,14 +24,29 @@
             Sizes:
             <li v-for="size in sizes" :key="size.id">{{size.numbers}}</li>
           </ul>
-          <div v-for="variant in variants" :key="variant.variantId">
-            <p @mouseover="updateProduct(variant.variantImage)">{{variant.variantColor}}</p>
+          <div 
+            class="color-box"
+            v-for="variant in variants" 
+            :key="variant.variantId"
+            :style="{backgroundColor: variant.variantColor}"
+            @mouseover="updateProduct(variant.variantImage)"
+            >
           </div>
         </div>
         <div class="cart">
           <p>Cart({{cart}})</p>
-          <button @click="addToCart">Add to Cart</button>
-          <button @click="removeFromCart">Remove from Cart</button>
+          <button 
+            @click="addToCart"
+            :disabled="!inventory"
+            :class="{disabledButton: !inventory}"
+            >Add to Cart
+          </button>
+          <button 
+            @click="removeFromCart"
+            :disabled="!cart"
+            :class="{disabledButton: !cart}"
+            >Remove from Cart
+            </button>
         </div>
       </div>
     </div>
