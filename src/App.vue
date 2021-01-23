@@ -12,7 +12,7 @@
           <a :href="search + product">Find more things like this!</a>
           <p v-if="inventory > 10">In Stock</p>
           <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
-          <p v-else>Out of Stock</p>
+          <p v-else :style="{ textDecoration: lineThrough }">Out of Stock</p>
           <p v-show="onSale">On Sale! :D</p>
 
           <ul>
@@ -20,13 +20,24 @@
               {{ detail }}
             </li>
           </ul>
-          <div v-for="variant in variants" :key="variant.id">
-            <p @ mouseover="updateProduct(variant.image)">
-              {{ variant.color }}
-            </p>
-          </div>
+          <div
+            v-for="variant in variants"
+            :key="variant.id"
+            class="color-box"
+            :style="{ backgroundColor: variant.color }"
+            @mouseover="updateProduct(variant.image)"
+          ></div>
           <div>
-            <button v-on:click="addToCart()">Add to Cart</button>
+            <button
+              :class="{
+                disabledButton: !inStock,
+                badassBackground: makeBadass,
+              }"
+              v-on:click="addToCart()"
+              :disabled="!inStock"
+            >
+              Add to Cart
+            </button>
             <br />
             <button v-on:click="takeFromCart()">Take away from Cart</button>
           </div>
@@ -48,8 +59,14 @@ export default {
       image: './assets/socks-green.png',
       search: 'https://www.google.com/search?q=',
       inStock: true,
-      inventory: 0,
+      inventory: 1,
+      makeBadass: false,
+      twoInCart: {
+        color: 'cyan',
+        backgroundColor: 'pink',
+      },
       onSale: true,
+      lineThrough: 'line-through',
       cart: 0,
       details: ['80% cotton', '20% polyester', 'Gender Neutral'],
       variants: [
@@ -69,9 +86,19 @@ export default {
     },
     addToCart() {
       this.cart++
+      if (this.cart == 3) {
+        this.makeBadass = true
+      } else {
+        this.makeBadass = false
+      }
     },
     takeFromCart() {
       if (this.cart > 0) this.cart--
+      if (this.cart == 3) {
+        this.makeBadass = true
+      } else {
+        this.makeBadass = false
+      }
     },
   },
 }
@@ -144,6 +171,10 @@ button {
 
 .disabledButton {
   background-color: #d8d8d8;
+}
+
+.badassBackground {
+  background-color: black;
 }
 
 .review-form {
