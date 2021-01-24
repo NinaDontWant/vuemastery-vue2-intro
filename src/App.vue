@@ -8,7 +8,7 @@
         </div>
 
         <div class="product-info">
-          <h1>What I sell: {{salesNotification}}</h1>
+          <h1>What I sell: {{title}}</h1>
           <p>{{description}}</p>
           <a :href="search+product">Find more things like this!</a>
           <p v-if="inventory>10">In Stock</p>
@@ -78,8 +78,10 @@ export default {
         }
       ],
       sizes: [
-        { id: 0, numbers: "32-35" },
-        { id: 1, numbers: "36-39" }
+        { id: 0, numbers: "33-35" },
+        { id: 1, numbers: "36-38" },
+        { id: 2, numbers: "39-41" }
+        { id: 3, numbers: "42-44" },
       ],
       cart: 0
     };
@@ -96,7 +98,7 @@ export default {
     }
   },
   computed: {
-    salesNotification() {
+    title() {
       if (this.onSale) return this.brand + " " + this.product;
       else return "we don't have anything for you";
     }
