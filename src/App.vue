@@ -11,9 +11,9 @@
           <h1>What I sell: {{title}}</h1>
           <p>{{description}}</p>
           <a :href="search+product">Find more things like this!</a>
-          <p v-if="inventory>10">In Stock</p>
-          <p v-else-if="inventory<=10&&inventory>0">Almost sold out!</p>
-          <p v-else :class="{outOfStock: !inventory}">Out of Stock</p>
+          <p v-if="inStock>10">In Stock</p>
+          <p v-else-if="inStock<=10&&inStock>0">Almost sold out!</p>
+          <p v-else :class="{outOfStock: !inStock}">Out of Stock</p>
           <p v-show="onSale">On Sale! :D</p>
 
           <ul>
@@ -26,18 +26,18 @@
           </ul>
           <div
             class="color-box"
-            v-for="variant in variants"
-            :key="variant.variantId"
-            :style="{backgroundColor: variant.variantColor}"
-            @mouseover="updateProduct(variant.variantImage)"
+            v-for="(variant, index) in variants"
+            :key="variant.id"
+            :style="{backgroundColor: variant.color}"
+            @mouseover="updateProduct(index)"
           ></div>
         </div>
         <div class="cart">
           <p>Cart({{cart}})</p>
           <button
             @click="addToCart"
-            :disabled="!inventory"
-            :class="{disabledButton: !inventory}"
+            :disabled="!inStock"
+            :class="{disabledButton: !inStock}"
           >Add to Cart</button>
           <button
             @click="removeFromCart"
@@ -57,31 +57,31 @@ export default {
   data: function() {
     return {
       product: "Socks",
+      selectedVariant: 0,
       brand: "Vue Mastery",
       description: "A pair of warm, fuzzy socks.",
-      image: "./assets/socks-green.png",
       search: "https://www.google.com/search?q=",
-      inStock: true,
-      inventory: 7,
       onSale: true,
       details: ["80% cotton", "20% polyester", "Gender-neutral"],
       variants: [
         {
-          variantId: 2234,
-          variantColor: "green",
-          variantImage: "./assets/socks-green.png"
+          id: 2234,
+          color: "green",
+          image: "./assets/socks-green.png",
+          inventory: 10
         },
         {
-          variantId: 2235,
-          variantColor: "blue",
-          variantImage: "./assets/vmSocks-blue-onWhite.jpg"
+          id: 2235,
+          color: "blue",
+          image: "./assets/vmSocks-blue-onWhite.jpg",
+          inventory: 0
         }
       ],
       sizes: [
         { id: 0, numbers: "33-35" },
         { id: 1, numbers: "36-38" },
-        { id: 2, numbers: "39-41" }
-        { id: 3, numbers: "42-44" },
+        { id: 2, numbers: "39-41" },
+        { id: 3, numbers: "42-44" }
       ],
       cart: 0
     };
@@ -93,14 +93,21 @@ export default {
     removeFromCart: function() {
       this.cart -= 1;
     },
-    updateProduct(variantImage) {
-      this.image = variantImage;
+    updateProduct(index) {
+      this.selectedVariant = index;
+      console.log(index)
     }
   },
   computed: {
     title() {
       if (this.onSale) return this.brand + " " + this.product;
       else return "we don't have anything for you";
+    },
+    image() {
+      return this.variants[this.selectedVariant].image
+    },
+    inStock(){
+      return this.variants[this.selectedVariant].inventory
     }
   }
 };
