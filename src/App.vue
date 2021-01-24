@@ -8,16 +8,12 @@
         </div>
 
         <div class="product-info">
-          <h1>What I sell: {{product}}</h1>
+          <h1>What I sell: {{salesNotification}}</h1>
           <p>{{description}}</p>
           <a :href="search+product">Find more things like this!</a>
           <p v-if="inventory>10">In Stock</p>
           <p v-else-if="inventory<=10&&inventory>0">Almost sold out!</p>
-          <p 
-            v-else 
-            :class="{outOfStock: !inventory}"
-            >Out of Stock
-          </p>
+          <p v-else :class="{outOfStock: !inventory}">Out of Stock</p>
           <p v-show="onSale">On Sale! :D</p>
 
           <ul>
@@ -28,29 +24,26 @@
             Sizes:
             <li v-for="size in sizes" :key="size.id">{{size.numbers}}</li>
           </ul>
-          <div 
+          <div
             class="color-box"
-            v-for="variant in variants" 
+            v-for="variant in variants"
             :key="variant.variantId"
             :style="{backgroundColor: variant.variantColor}"
             @mouseover="updateProduct(variant.variantImage)"
-            >
-          </div>
+          ></div>
         </div>
         <div class="cart">
           <p>Cart({{cart}})</p>
-          <button 
+          <button
             @click="addToCart"
             :disabled="!inventory"
             :class="{disabledButton: !inventory}"
-            >Add to Cart
-          </button>
-          <button 
+          >Add to Cart</button>
+          <button
             @click="removeFromCart"
             :disabled="!cart"
             :class="{disabledButton: !cart}"
-            >Remove from Cart
-            </button>
+          >Remove from Cart</button>
         </div>
       </div>
     </div>
@@ -64,11 +57,12 @@ export default {
   data: function() {
     return {
       product: "Socks",
+      brand: "Vue Mastery",
       description: "A pair of warm, fuzzy socks.",
       image: "./assets/socks-green.png",
       search: "https://www.google.com/search?q=",
       inStock: true,
-      inventory: 0,
+      inventory: 7,
       onSale: true,
       details: ["80% cotton", "20% polyester", "Gender-neutral"],
       variants: [
@@ -99,6 +93,12 @@ export default {
     },
     updateProduct(variantImage) {
       this.image = variantImage;
+    }
+  },
+  computed: {
+    salesNotification() {
+      if (this.onSale) return this.brand + " " + this.product;
+      else return "we don't have anything for you";
     }
   }
 };
