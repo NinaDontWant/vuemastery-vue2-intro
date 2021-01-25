@@ -7,13 +7,20 @@
           <img :src="image" :alt="product" />
         </div>
         <div class="product-info">
-          <h1>What I sell: {{ product }}</h1>
+          <h1>What I sell: {{ title }}</h1>
           <p>{{ description }}</p>
           <a :href="search + product">Find more things like this!</a>
-          <p v-if="inventory > 10">In Stock</p>
-          <p v-else-if="inventory <= 10 && inventory > 0">Almost sold out!</p>
+          <p v-if="variants[selectedVariant].quantity >= 10">In Stock</p>
+          <p
+            v-else-if="
+              variants[selectedVariant].quantity < 10 &&
+              variants[selectedVariant].quantity > 0
+            "
+          >
+            Almost sold out!
+          </p>
           <p v-else :style="{ textDecoration: lineThrough }">Out of Stock</p>
-          <p v-show="onSale">On Sale! :D</p>
+          <p v-show="onSale">{{ printSale }}</p>
 
           <ul>
             <li v-for="detail in details" :key="details.indexOf(detail)">
@@ -21,11 +28,11 @@
             </li>
           </ul>
           <div
-            v-for="variant in variants"
+            v-for="(variant, index) in variants"
             :key="variant.id"
             class="color-box"
             :style="{ backgroundColor: variant.color }"
-            @mouseover="updateProduct(variant.image)"
+            @mouseover="updateProduct(index)"
           ></div>
           <div>
             <button
@@ -55,11 +62,11 @@ export default {
   data: function () {
     return {
       product: 'Socks',
+      brand: 'Vue Mastery',
       description: 'A pair of warm, fuzzy socks.',
-      image: './assets/socks-green.png',
+      selectedVariant: 0,
       search: 'https://www.google.com/search?q=',
-      inStock: true,
-      inventory: 1,
+
       makeBadass: false,
       twoInCart: {
         color: 'cyan',
@@ -70,8 +77,13 @@ export default {
       cart: 0,
       details: ['80% cotton', '20% polyester', 'Gender Neutral'],
       variants: [
-        { id: 0, color: 'green', image: './assets/socks-green.png' },
-        { id: 1, color: 'blue', image: './assets/socks-blue.jpg' },
+        {
+          id: 0,
+          color: 'green',
+          image: './assets/socks-green.png',
+          quantity: 10,
+        },
+        { id: 1, color: 'blue', image: './assets/socks-blue.jpg', quantity: 0 },
       ],
 
       sizes: [
@@ -81,24 +93,31 @@ export default {
     }
   },
   methods: {
-    updateProduct(variantImage) {
-      this.image = variantImage
+    updateProduct(index) {
+      this.selectedVariant = index
     },
     addToCart() {
       this.cart++
-      if (this.cart == 3) {
-        this.makeBadass = true
-      } else {
-        this.makeBadass = false
-      }
+      this.makeBadass = this.cart === 3
     },
     takeFromCart() {
       if (this.cart > 0) this.cart--
-      if (this.cart == 3) {
-        this.makeBadass = true
-      } else {
-        this.makeBadass = false
-      }
+      this.makeBadass = this.cart === 3
+    },
+  },
+
+  computed: {
+    title() {
+      return this.brand + ' ' + this.product
+    },
+    image() {
+      return this.variants[this.selectedVariant].image
+    },
+    inStock() {
+      return this.variants[this.selectedVariant].quantity
+    },
+    printSale() {
+      return this.brand + ' ' + this.product + ' are on sale!'
     },
   },
 }
@@ -115,9 +134,9 @@ export default {
 }
 
 body {
-  font-family: tahoma;
+  font-family: tahoma, serif;
   color: #282828;
-  margin: 0px;
+  margin: 0;
 }
 
 .nav-bar {
@@ -134,7 +153,7 @@ img {
   border: 1px solid #d8d8d8;
   width: 70%;
   margin: 40px;
-  box-shadow: 0px 0.5px 1px #d8d8d8;
+  box-shadow: 0 1px 1px #d8d8d8;
 }
 
 .product-image {
@@ -167,10 +186,6 @@ button {
   height: 40px;
   width: 100px;
   font-size: 14px;
-}
-
-.disabledButton {
-  background-color: #d8d8d8;
 }
 
 .badassBackground {
