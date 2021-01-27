@@ -28,7 +28,7 @@
         ></div>
       </div>
       <div class="cart">
-        <p>Cart({{cart}})</p>
+        <!-- <p>Cart({{cart}})</p> -->
         <button
           @click="addToCart"
           :disabled="!inStock"
@@ -36,9 +36,10 @@
         >Add to Cart</button>
         <button
           @click="removeFromCart"
-          :disabled="!cart"
-          :class="{disabledButton: !cart}"
         >Remove from Cart</button>
+<!--    potentially also within the button description, but with reference to the cart in the parent app.vue
+          :disabled="!cart"
+          :class="{disabledButton: !cart}" -->
       </div>
     </div>
   </div>
@@ -70,7 +71,7 @@ export default {
           id: 2235,
           color: "blue",
           image: "./assets/vmSocks-blue-onWhite.jpg",
-          inventory: 0
+          inventory: 4
         }
       ],
       sizes: [
@@ -79,15 +80,15 @@ export default {
         { id: 2, numbers: "39-41" },
         { id: 3, numbers: "42-44" }
       ],
-      cart: 0
+      // cart: 0
     };
   },
   methods: {
     addToCart: function() {
-      this.cart += 1;
+      this.$emit("add-to-cart", this.variants[this.selectedVariant].id)
     },
     removeFromCart: function() {
-      this.cart -= 1;
+      this.$emit("remove-from-cart", this.variants[this.selectedVariant].id)
     },
     updateProduct(index) {
       this.selectedVariant = index;
