@@ -35,6 +35,7 @@
 						<p>{{ review.name }}</p>
 						<p>Rating: {{ review.rating }}</p>
 						<p>{{ review.review }}</p>
+						<p>Would recommend: {{ review.recommend }}</p>
 					</li>
 				</ul>
 			</div>
