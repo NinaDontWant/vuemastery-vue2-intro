@@ -14,7 +14,7 @@
 				<li v-for="(review, index) in reviews" :key="index">
 					<p>{{ review.name }}</p>
 					<p>Rating:{{ review.rating }}</p>
-					<p>{{ review.review }}</p>
+					<p>{{ review.recommend }}</p>
 				</li>
 			</ul>
 		</div>
@@ -36,11 +36,11 @@ export default {
 			// reviews: [],
 		};
 	},
-	// methods: {
-	// 	addReview(productReview) {
-	// 		this.reviews.push(productReview);
-	// 	},
-    // },
+	methods: {
+		addReview(productReview) {
+			this.reviews.push(productReview);
+		},
+    },
     props:{
         reviews: {
         type: Array,
