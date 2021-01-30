@@ -36,6 +36,18 @@
         </div>
 
         <p>Shipping costs: {{ shipping }}</p>
+        <div>
+          <h2>Reviews</h2>
+          <p v-if="!reviews.length">There are no reviews yet</p>
+          <ul>
+            <li :key="review.name" v-for="review in reviews">
+              <p>{{ review.name }}</p>
+              <p>Rating: {{ review.rating }}</p>
+              <p>{{ review.review }}</p>
+            </li>
+          </ul>
+        </div>
+        <ProductReview @review-submitted="addReview" />
       </div>
     </div>
   </div>
@@ -43,8 +55,9 @@
 
 <script>
 import ProductDetails from '@/components/ProductDetails'
+import ProductReview from '@/components/ProductReview'
 export default {
-  components: { ProductDetails },
+  components: { ProductReview, ProductDetails },
   props: {
     premium: {
       type: Boolean,
@@ -81,6 +94,7 @@ export default {
         { id: 0, numbers: '32-35' },
         { id: 1, numbers: '36-39' },
       ],
+      reviews: [],
     }
   },
   methods: {
@@ -92,6 +106,9 @@ export default {
     },
     takeFromCart() {
       this.$emit('remove-from-cart', this.variants[this.selectedVariant].id)
+    },
+    addReview(productReview) {
+      this.reviews.push(productReview)
     },
   },
 
