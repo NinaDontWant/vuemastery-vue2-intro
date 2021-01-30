@@ -25,7 +25,6 @@
           <button
             :class="{
               disabledButton: !inStock,
-              badassBackground: makeBadass,
             }"
             v-on:click="addToCart()"
             :disabled="!inStock"
@@ -35,7 +34,6 @@
           <br />
           <button v-on:click="takeFromCart()">Take away from Cart</button>
         </div>
-        <div class="cart">Cart({{ cart }})</div>
 
         <p>Shipping costs: {{ shipping }}</p>
       </div>
@@ -61,7 +59,6 @@ export default {
       selectedVariant: 0,
       search: 'https://www.google.com/search?q=',
 
-      makeBadass: false,
       twoInCart: {
         color: 'cyan',
         backgroundColor: 'pink',
@@ -77,7 +74,7 @@ export default {
           image: './assets/socks-green.png',
           quantity: 10,
         },
-        { id: 1, color: 'blue', image: './assets/socks-blue.jpg', quantity: 0 },
+        { id: 1, color: 'blue', image: './assets/socks-blue.jpg', quantity: 5 },
       ],
 
       sizes: [
@@ -91,12 +88,10 @@ export default {
       this.selectedVariant = index
     },
     addToCart() {
-      this.cart++
-      this.makeBadass = this.cart === 3
+      this.$emit('add-to-cart', this.variants[this.selectedVariant].id)
     },
     takeFromCart() {
-      if (this.cart > 0) this.cart--
-      this.makeBadass = this.cart === 3
+      this.$emit('remove-from-cart', this.variants[this.selectedVariant].id)
     },
   },
 

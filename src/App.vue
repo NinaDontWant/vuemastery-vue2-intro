@@ -2,8 +2,12 @@
   <div>
     <div class="nav-bar"></div>
     <div id="app">
-      <Product :premium="premium" />
-
+      <div class="cart">Cart({{ cart.length }})</div>
+      <Product
+        @add-to-cart="addToCart"
+        @remove-from-cart="removeFromCart"
+        :premium="premium"
+      />
     </div>
   </div>
 </template>
@@ -17,7 +21,16 @@ export default {
   data: () => {
     return {
       premium: true,
+      cart: [],
     }
+  },
+  methods: {
+    addToCart(id) {
+      this.cart.push(id)
+    },
+    removeFromCart(id) {
+      this.cart.pop(id)
+    },
   },
 }
 </script>
@@ -85,10 +98,6 @@ button {
   height: 40px;
   width: 100px;
   font-size: 14px;
-}
-
-.badassBackground {
-  background-color: black;
 }
 
 .review-form {
