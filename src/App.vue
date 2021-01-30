@@ -74,6 +74,8 @@ body {
 
 .product {
 	display: flex;
+	flex-flow: wrap;
+	padding: 1rem;
 }
 
 img {
@@ -87,6 +89,7 @@ img {
 	flex-basis: 700px;
 }
 
+.product-image,
 .product-info {
 	margin-top: 10px;
 	flex-basis: 500px;
@@ -106,13 +109,15 @@ img {
 }
 
 button {
-	margin-top: 30px;
+	margin: 20px 5px;
 	border: none;
 	background-color: #1e95ea;
 	color: white;
 	height: 40px;
 	width: 100px;
 	font-size: 14px;
+	padding: 5px 20px;
+
 }
 
 .disabledButton {
@@ -122,6 +127,7 @@ button {
 .review-form {
 	width: 30%;
 	padding: 20px;
+	margin: 40px;
 	border: 1px solid #d8d8d8;
 }
 
@@ -138,5 +144,15 @@ textarea {
 
 .outOfStock {
 	text-decoration: line-through;
+}
+
+.tabs {
+	margin-left: 20px;
+	cursor: pointer;
+}
+
+.activeTab {
+	color: #16c0b0;
+	text-decoration: underline;
 }
 </style>

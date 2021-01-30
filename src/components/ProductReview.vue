@@ -24,9 +24,9 @@
 
 			<p>Would you recommend this product?
 			<p>	
-					<label for="male">Yes</label><br>
+					<label for="yes">Yes</label><br>
 					<input type="radio" id="yes" v-model="recommend" value="yes">
-					<label for="female">No</label><br>
+					<label for="no">No</label><br>
 					<input type="radio" id="no" v-model="recommend" value="no">
 			</p>
 			<p>
@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { eventBus } from '../main';
+
 export default {
 	data() {
 		return {
@@ -62,7 +64,7 @@ export default {
 					rating: this.rating,
 					recommend: this.recommend,
 				};
-				this.$emit("review-submitted", productReview);
+				eventBus.$emit('review-submitted', productReview)				
 				this.name = null;
 				this.review = null;
 				this.rating = null;
