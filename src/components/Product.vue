@@ -12,9 +12,9 @@
 				<p v-else-if="inStock <= 10 && inStock > 0">Almost sold out!</p>
 				<p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
 				<p v-show="onSale">On Sale! :D</p>
-				
+
 				<p>Shipping: {{ shipping }}</p>
-				
+
 				<ProductDetails />
 
 				<ul>
@@ -30,19 +30,7 @@
 				></div>
 			</div>
 			<ProductTabs :reviews="reviews" />
-			<!-- <div>
-				<h2>Reviews</h2>
-				<p v-if="!reviews.length">There are no reviews yet.</p>
-				<ul>
-					<li v-for="review in reviews" :key="review.id">
-						<p>{{ review.name }}</p>
-						<p>Rating: {{ review.rating }}</p>
-						<p>{{ review.review }}</p>
-						<p>Would recommend: {{ review.recommend }}</p>
-					</li>
-				</ul>
-			</div>
-			<ProductReview @review-submitted="addReview" /> -->
+
 			<div class="buttons">
 				<button
 					@click="addToCart"
@@ -62,11 +50,9 @@
 
 <script>
 import ProductDetails from "./ProductDetails";
-// import ProductReview from "./ProductReview";
 import ProductTabs from "./ProductTabs";
 import { eventBus } from "../main";
 
-// Productreview used to be in the components two lines down.
 export default {
 	components: { ProductDetails, ProductTabs },
 	data: function() {
@@ -98,7 +84,6 @@ export default {
 				{ id: 2, numbers: "39-41" },
 				{ id: 3, numbers: "42-44" },
 			],
-			// cart: 0
 			reviews: [],
 		};
 	},
@@ -113,14 +98,6 @@ export default {
 			this.selectedVariant = index;
 			console.log(index);
 		},
-		// addReview(productReview) {
-		// 	this.reviews.push(productReview);
-		// },
-		// created() {
-		// 	eventBus.$on("review-submitted", (productReview) => {
-		// 		this.reviews.push(productReview);
-		// 	});
-		// },
 	},
 	computed: {
 		title() {
@@ -143,7 +120,6 @@ export default {
 			type: Boolean,
 			required: true,
 		},
-		
 	},
 	mounted() {
 		eventBus.$on("review-submitted", (productReview) => {

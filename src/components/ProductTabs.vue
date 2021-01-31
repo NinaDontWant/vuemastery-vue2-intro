@@ -8,13 +8,14 @@
 			>{{ tab }}
 		</span>
 
-		<div v-show="selectedTab === 'Review'">
+		<div v-show="selectedTab === 'Reviews'">
 			<p v-if="!reviews.length">There are no reviews yet.</p>
 			<ul v-else>
 				<li v-for="(review, index) in reviews" :key="index">
 					<p>{{ review.name }}</p>
-					<p>Rating:{{ review.rating }}</p>
-					<p>{{ review.recommend }}</p>
+					<p>{{ review.review }}</p>
+					<p>Rating: {{ review.rating }}</p>
+					<p>Would recommend: {{ review.recommend }}</p>
 				</li>
 			</ul>
 		</div>
@@ -46,7 +47,6 @@ export default {
         type: Array,
         required: false
       }
-
     }
 };
 </script>
