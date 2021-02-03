@@ -29,7 +29,7 @@
 					@mouseover="updateProduct(index)"
 				></div>
 			</div>
-			<ProductTabs :reviews="reviews" />
+			<ReviewTabs :reviews="reviews" />
 
 			<div class="buttons">
 				<button
@@ -50,11 +50,11 @@
 
 <script>
 import ProductDetails from "./ProductDetails";
-import ProductTabs from "./ProductTabs";
+import ReviewTabs from "./ReviewTabs";
 import { eventBus } from "../main";
 
 export default {
-	components: { ProductDetails, ProductTabs },
+	components: { ProductDetails, ReviewTabs },
 	data: function() {
 		return {
 			product: "Socks",
