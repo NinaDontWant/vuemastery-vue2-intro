@@ -7,7 +7,7 @@
 			<div class="product-info">
 				<h1>What I sell: {{ title }}</h1>
 				<p>{{ description }}</p>
-				<a :href="search + product">Find more things like this!</a>
+				<a :href="search + product">Find more things kinda like this!</a>
 				<p v-if="inStock > 10">In Stock</p>
 				<p v-else-if="inStock <= 10 && inStock > 0">Almost sold out!</p>
 				<p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+// import ProductDetails from "./ProductDetails";
 import DetailTabs from "./DetailTabs";
 import ReviewTabs from "./ReviewTabs";
 import { eventBus } from "../main";
@@ -53,31 +54,31 @@ export default {
 	components: { DetailTabs, ReviewTabs },
 	data: function() {
 		return {
-			product: "Socks",
+			product: "Shirt",
 			selectedVariant: 0,
-			brand: "Vue Mastery",
-			description: "A pair of warm, fuzzy socks.",
+			brand: "Heavy Metal",
+			description: "A shirt to scare everyone.",
 			search: "https://www.google.com/search?q=",
 			onSale: true,
 			variants: [
 				{
-					id: 2234,
-					color: "green",
-					image: "./assets/socks-green.png",
+					id: 2236,
+					color: "black",
+					image: "./assets/shirt-black.jfif",
 					inventory: 10,
 				},
 				{
-					id: 2235,
-					color: "blue",
-					image: "./assets/vmSocks-blue-onWhite.jpg",
+					id: 2237,
+					color: "red",
+					image: "./assets/shirt-red.jfif",
 					inventory: 4,
 				},
 			],
 			sizes: [
-				{ id: 0, numbers: "33-35" },
-				{ id: 1, numbers: "36-38" },
-				{ id: 2, numbers: "39-41" },
-				{ id: 3, numbers: "42-44" },
+				{ id: 0, numbers: "S" },
+				{ id: 1, numbers: "M" },
+				{ id: 2, numbers: "L" },
+				{ id: 3, numbers: "XL" },
 			],
 			reviews: [],
 		};

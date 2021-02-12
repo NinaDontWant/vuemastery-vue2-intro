@@ -11,7 +11,7 @@
 				@add-to-cart="incrementCart"
 				@remove-from-cart="decrementCart"
 			/>
-			<Product
+			<Product2
 				:premium="!premium"
 				@add-to-cart="incrementCart"
 				@remove-from-cart="decrementCart"
@@ -22,9 +22,11 @@
 
 <script>
 import Product from "./components/Product";
+import Product2 from "./components/Product2";
+
 export default {
 	name: "app",
-	components: { Product },
+	components: { Product, Product2 },
 	data: function() {
 		return {
 			premium: true,
