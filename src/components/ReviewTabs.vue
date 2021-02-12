@@ -34,7 +34,6 @@ export default {
 		return {
 			tabs: ["Reviews", "Make a Review"],
 			selectedTab: "Reviews",
-			// reviews: [],
 		};
 	},
 	methods: {

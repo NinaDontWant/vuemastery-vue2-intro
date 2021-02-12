@@ -12,11 +12,8 @@
 				<p v-else-if="inStock <= 10 && inStock > 0">Almost sold out!</p>
 				<p v-else :class="{ outOfStock: !inStock }">Out of Stock</p>
 				<p v-show="onSale">On Sale! :D</p>
-
-				<p>Shipping: {{ shipping }}</p>
-
-				<ProductDetails />
-
+			<DetailTabs :premium="premium" />
+				<!-- <p>Shipping: {{ shipping }}</p> -->
 				<ul>
 					Sizes:
 					<li v-for="size in sizes" :key="size.id">{{ size.numbers }}</li>
@@ -49,12 +46,13 @@
 </template>
 
 <script>
-import ProductDetails from "./ProductDetails";
+// import ProductDetails from "./ProductDetails";
+import DetailTabs from "./DetailTabs";
 import ReviewTabs from "./ReviewTabs";
 import { eventBus } from "../main";
 
 export default {
-	components: { ProductDetails, ReviewTabs },
+	components: { DetailTabs, ReviewTabs },
 	data: function() {
 		return {
 			product: "Socks",
