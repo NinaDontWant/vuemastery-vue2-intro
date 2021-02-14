@@ -12,8 +12,8 @@
         <p v-else-if="inStock < 10 && inStock > 0">Almost sold out!</p>
         <p v-else :style="{ textDecoration: lineThrough }">Out of Stock</p>
         <p v-show="onSale">{{ printSale }}</p>
+        <DetailShippingTabs :details="details" :shipping="shipping" />
 
-        <ProductDetails :details="details" />
         <div
           v-for="(variant, index) in variants"
           :key="variant.id"
@@ -35,29 +35,24 @@
           <button v-on:click="takeFromCart()">Take away from Cart</button>
         </div>
 
-        <p>Shipping costs: {{ shipping }}</p>
-        <div>
-          <h2>Reviews</h2>
-          <p v-if="!reviews.length">There are no reviews yet</p>
-          <ul>
-            <li :key="review.name" v-for="review in reviews">
-              <p>{{ review.name }}</p>
-              <p>Rating: {{ review.rating }}</p>
-              <p>{{ review.review }}</p>
-            </li>
-          </ul>
-        </div>
-        <ProductReview @review-submitted="addReview" />
+        <ProductTabs :reviews="reviews" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ProductDetails from '@/components/ProductDetails'
-import ProductReview from '@/components/ProductReview'
+import ProductTabs from '@/components/ProductTabs'
+import DetailShippingTabs from '@/components/DetailShippingTabs'
+import { eventBus } from './../main'
+
 export default {
-  components: { ProductReview, ProductDetails },
+  components: { ProductTabs, DetailShippingTabs },
+  mounted() {
+    eventBus.$on('review-submitted', (productReview) => {
+      this.reviews.push(productReview)
+    })
+  },
   props: {
     premium: {
       type: Boolean,
@@ -107,9 +102,6 @@ export default {
     takeFromCart() {
       this.$emit('remove-from-cart', this.variants[this.selectedVariant].id)
     },
-    addReview(productReview) {
-      this.reviews.push(productReview)
-    },
   },
 
   computed: {
@@ -134,7 +126,93 @@ export default {
 </script>
 
 <style>
-#product {
-  /*background-color: lightblue;*/
+body {
+  font-family: tahoma;
+  color: #282828;
+  margin: 0px;
+}
+
+.nav-bar {
+  background: linear-gradient(-90deg, #84cf6a, #16c0b0);
+  height: 60px;
+  margin-bottom: 15px;
+}
+
+.product {
+  display: flex;
+  flex-flow: wrap;
+  padding: 1rem;
+}
+
+img {
+  border: 1px solid #d8d8d8;
+  width: 70%;
+  margin: 40px;
+  box-shadow: 0px 0.5px 1px #d8d8d8;
+}
+
+.product-image {
+  width: 80%;
+}
+
+.product-image,
+.product-info {
+  margin-top: 10px;
+  width: 50%;
+}
+
+.color-box {
+  width: 40px;
+  height: 40px;
+  margin-top: 5px;
+}
+
+.cart {
+  margin-right: 25px;
+  float: right;
+  border: 1px solid #d8d8d8;
+  padding: 5px 20px;
+}
+
+button {
+  margin-top: 30px;
+  border: none;
+  background-color: #1e95ea;
+  color: white;
+  height: 40px;
+  width: 100px;
+  font-size: 14px;
+}
+
+.disabledButton {
+  background-color: #d8d8d8;
+}
+
+.review-form {
+  width: 400px;
+  padding: 20px;
+  margin: 40px;
+  border: 1px solid #d8d8d8;
+}
+
+input {
+  width: 100%;
+  height: 25px;
+  margin-bottom: 20px;
+}
+
+textarea {
+  width: 100%;
+  height: 60px;
+}
+
+.tab {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.activeTab {
+  color: #16c0b0;
+  text-decoration: underline;
 }
 </style>
