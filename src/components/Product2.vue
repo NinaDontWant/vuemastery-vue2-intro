@@ -54,7 +54,7 @@ export default {
 	components: { DetailTabs, ReviewTabs },
 	data: function() {
 		return {
-			product: "Shirt",
+			product: "T-Shirt",
 			selectedVariant: 0,
 			brand: "Heavy Metal",
 			description: "A shirt to scare everyone.",
